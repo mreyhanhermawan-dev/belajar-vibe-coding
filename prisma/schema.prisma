@@ -1,6 +1,4 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
+// prisma/schema.prisma
 generator client {
   provider = "prisma-client-js"
 }
@@ -12,7 +10,7 @@ datasource db {
 // ===== AUTH =====
 model AdminProfile {
   id         String   @id @default(cuid())
-  authUserId String   @unique // FK ke Supabase auth.users.id
+  authUserId String   @unique
   email      String   @unique
   fullName   String
   role       Role     @default(ADMIN)
@@ -25,33 +23,6 @@ model AdminProfile {
 enum Role {
   SUPER_ADMIN
   ADMIN
-}
-
-// ===== PROFIL DESA =====
-model ProfilDesa {
-  id              String   @id @default(cuid())
-  villageName     String   @default("Kelurahan Palabuhanratu")
-  districtName    String   @default("Kecamatan Palabuhanratu")
-  regencyName     String   @default("Kabupaten Sukabumi")
-  provinceName    String   @default("Jawa Barat")
-  postalCode      String   @default("")
-  address         String   @default("")
-  phone           String   @default("")
-  email           String   @default("")
-  headName        String   @default("") // Nama Lurah
-  headTitle       String   @default("Lurah")
-  vision          String   @db.Text @default("")
-  mission         String   @db.Text @default("")
-  history         String   @db.Text @default("")
-  population      Int      @default(0)
-  area            Float    @default(0) // Luas wilayah km²
-  logoUrl         String?
-  bannerUrl       String?
-  mapEmbedUrl     String?  // Google Maps embed URL
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-
-  @@map("profil_desa")
 }
 
 // ===== PROGRAM KKN =====
@@ -77,16 +48,16 @@ enum ProgramKknStatus {
 
 // ===== PEMETAAN MASALAH =====
 model PemetaanMasalah {
-  id          String              @id @default(cuid())
+  id          String           @id @default(cuid())
   name        String
-  description String              @db.Text
+  description String           @db.Text
   category    PemetaanCategory
   latitude    Float
   longitude   Float
   imageUrl    String?
   address     String?
-  createdAt   DateTime            @default(now())
-  updatedAt   DateTime            @updatedAt
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
 
   @@map("pemetaan_masalah")
 }
@@ -121,4 +92,31 @@ enum UmkmCategory {
   KERAJINAN
   JASA
   LAINNYA
+}
+
+// ===== PROFIL DESA =====
+model ProfilDesa {
+  id           String   @id @default(cuid())
+  villageName  String   @default("Kelurahan Palabuhanratu")
+  districtName String   @default("Kecamatan Palabuhanratu")
+  regencyName  String   @default("Kabupaten Sukabumi")
+  provinceName String   @default("Jawa Barat")
+  postalCode   String   @default("")
+  address      String   @default("")
+  phone        String   @default("")
+  email        String   @default("")
+  headName     String   @default("")
+  headTitle    String   @default("Lurah")
+  vision       String   @default("") @db.Text
+  mission      String   @default("") @db.Text
+  history      String   @default("") @db.Text
+  population   Int      @default(0)
+  area         Float    @default(0)
+  logoUrl      String?
+  bannerUrl    String?
+  mapEmbedUrl  String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("profil_desa")
 }
