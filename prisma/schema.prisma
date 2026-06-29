@@ -26,3 +26,99 @@ enum Role {
   SUPER_ADMIN
   ADMIN
 }
+
+// ===== PROFIL DESA =====
+model ProfilDesa {
+  id              String   @id @default(cuid())
+  villageName     String   @default("Kelurahan Palabuhanratu")
+  districtName    String   @default("Kecamatan Palabuhanratu")
+  regencyName     String   @default("Kabupaten Sukabumi")
+  provinceName    String   @default("Jawa Barat")
+  postalCode      String   @default("")
+  address         String   @default("")
+  phone           String   @default("")
+  email           String   @default("")
+  headName        String   @default("") // Nama Lurah
+  headTitle       String   @default("Lurah")
+  vision          String   @db.Text @default("")
+  mission         String   @db.Text @default("")
+  history         String   @db.Text @default("")
+  population      Int      @default(0)
+  area            Float    @default(0) // Luas wilayah km²
+  logoUrl         String?
+  bannerUrl       String?
+  mapEmbedUrl     String?  // Google Maps embed URL
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("profil_desa")
+}
+
+// ===== PROGRAM KKN =====
+model ProgramKkn {
+  id          String           @id @default(cuid())
+  title       String
+  description String           @db.Text
+  imageUrl    String?
+  status      ProgramKknStatus @default(COMING_SOON)
+  startDate   DateTime?
+  endDate     DateTime?
+  location    String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@map("program_kkn")
+}
+
+enum ProgramKknStatus {
+  COMING_SOON
+  COMPLETED
+}
+
+// ===== PEMETAAN MASALAH =====
+model PemetaanMasalah {
+  id          String              @id @default(cuid())
+  name        String
+  description String              @db.Text
+  category    PemetaanCategory
+  latitude    Float
+  longitude   Float
+  imageUrl    String?
+  address     String?
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+
+  @@map("pemetaan_masalah")
+}
+
+enum PemetaanCategory {
+  TEMPAT_SAMPAH
+  JALUR_EVAKUASI
+}
+
+// ===== UMKM =====
+model Umkm {
+  id          String       @id @default(cuid())
+  name        String
+  description String       @db.Text
+  ownerName   String
+  address     String
+  phone       String
+  category    UmkmCategory
+  imageUrl    String?
+  latitude    Float?
+  longitude   Float?
+  isActive    Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@map("umkm")
+}
+
+enum UmkmCategory {
+  MAKANAN
+  MINUMAN
+  KERAJINAN
+  JASA
+  LAINNYA
+}
